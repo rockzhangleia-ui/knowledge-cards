@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 知识卡片</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f7f8fa;--surface:#ffffff;--text:#1a1d24;--text-muted:#8896a7;--border:#e8edf2;--accent:#6c8ebf;--radius:16px;--shadow:0 2px 12px rgba(0,0,0,0.06);--sh2:0 6px 24px rgba(0,0,0,0.1)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Noto Sans SC',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+
+    header{background:rgba(255,255,255,0.92);border-bottom:1px solid var(--border);padding:0 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+    .logo{font-size:18px;font-weight:600;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+    .logo span{font-size:22px}
+
+    .search-wrap{flex:1;max-width:400px}
+    .search-wrap input{width:100%;padding:8px 16px;border:1.5px solid var(--border);border-radius:24px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,142,191,0.15)}
+
+    .stats-bar{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text-muted);flex-wrap:wrap}
+    .stats-bar strong{color:var(--text)}
+    .clear-btn{padding:3px 10px;border-radius:20px;font-size:12px;background:transparent;color:var(--accent);border:1.5px solid rgba(108,142,191,0.3);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;font-family:inherit;transition:background .15s}
+    .clear-btn:hover{background:rgba(108,142,191,0.1)}
+
+    .container{max-width:1200px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:220px 1fr;gap:24px}
+
+    .sidebar{position:sticky;top:80px;height:fit-content}
+    .sidebar-section{background:var(--surface);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+    .sidebar-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:10px}
+    .cat-item{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;border-radius:8px;cursor:pointer;text-decoration:none;color:var(--text);font-size:13.5px;transition:background .15s}
+    .cat-item:hover{background:var(--bg)}
+    .cat-item.active{background:var(--bg);font-weight:500}
+    .cat-dot{width:10px;height:10px;border-radius:50%;margin-right:8px;flex-shrink:0}
+    .cat-name{display:flex;align-items:center;flex:1}
+    .cat-count{font-size:11px;background:var(--border);color:var(--text-muted);padding:1px 7px;border-radius:10px}
+    .tag-btn{padding:3px 10px;border-radius:20px;font-size:12px;background:var(--border);color:var(--text-muted);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:3px;font-family:inherit;transition:all .15s;border:none}
+    .tag-btn:hover,.tag-btn.active{background:var(--text);color:#fff}
+
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;text-decoration:none;color:inherit;transition:box-shadow .2s,transform .2s;display:flex;flex-direction:column}
+    .card:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+    .card-accent{height:4px}
+    .card-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column}
+    .card-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .card-cat{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px}
+    .card-date{font-size:11px;color:var(--text-muted);margin-left:auto}
+    .card-title{font-size:15px;font-weight:600;margin-bottom:10px;line-height:1.4}
+    .card-points{list-style:none;padding:0;margin:0}
+    .card-points li{font-size:13px;color:var(--text-muted);padding:3px 0;border-bottom:1px dashed var(--border);display:flex;align-items:flex-start;gap:6px}
+    .card-points li:last-child{border-bottom:none}
+    .card-points li::before{content:'·';font-size:16px;line-height:1.2;flex-shrink:0}
+    .card-tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:4px}
+    .card-tag{font-size:11px;padding:1px 7px;border-radius:4px;background:var(--bg);color:var(--text-muted)}
+
+    .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted)}
+    .empty-icon{font-size:48px;margin-bottom:12px}
+
+    @media(max-width:768px){.container{grid-template-columns:1fr}.sidebar{position:static;display:flex;gap:12px;overflow-x:auto;padding-bottom:4px}.sidebar-section{flex-shrink:0;margin-bottom:0}.search-wrap{display:none}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo"><span>📚</span> 知识卡片</a>
+    <div class="search-wrap">
+      <input id="searchInput" placeholder="搜索标题或内容…" autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <span>共 <strong id="totalCount">4</strong> 张卡片</span>
+  <span id="filterLabel"></span>
+  <button class="clear-btn" id="clearBtn" style="display:none" onclick="clearAll()">✕ 清除筛选</button>
+</div>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">📂 分类</div>
+      <a href="/" class="cat-item active" onclick="filterByCat(null);return false">
+        <span class="cat-name"><span class="cat-dot" style="background:#94a3b8"></span>全部</span>
+        <span class="cat-count">4</span>
+      </a>
+      <a href="/?cat=💰 投资" class="cat-item" data-cat="{{cat}}">
+        <span class="cat-name"><span class="cat-dot" style="background:#f59e0b"></span>💰 投资</span>
+        <span class="cat-count">1</span>
+      </a>
+      <a href="/?cat=💡 思维" class="cat-item" data-cat="{{cat}}">
+        <span class="cat-name"><span class="cat-dot" style="background:#3b82f6"></span>💡 思维</span>
+        <span class="cat-count">1</span>
+      </a>
+      <a href="/?cat=⚽ 足球" class="cat-item" data-cat="{{cat}}">
+        <span class="cat-name"><span class="cat-dot" style="background:#ef4444"></span>⚽ 足球</span>
+        <span class="cat-count">1</span>
+      </a>
+      <a href="/?cat=🏛️ 历史" class="cat-item" data-cat="{{cat}}">
+        <span class="cat-name"><span class="cat-dot" style="background:#8b5cf6"></span>🏛️ 历史</span>
+        <span class="cat-count">1</span>
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">🏷️ 标签</div>
+      <div id="tagsCloud"><button class="tag-btn" data-tag="价值投资">#价值投资 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="护城河">#护城河 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="选股">#选股 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="思维模型">#思维模型 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="投资">#投资 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="二八法则">#二八法则 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="梅西">#梅西 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="巴塞罗那">#巴塞罗那 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="技术流">#技术流 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="豆豆">#豆豆 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="文化属性">#文化属性 <small>(1)</small></button>
+    <button class="tag-btn" data-tag="哲学">#哲学 <small>(1)</small></button>
+          </div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="card-grid" id="cardGrid"></div>
+  </main>
+</div>
+
+<script>
+const ALL_CARDS = [{"id": "巴菲特护城河", "title": "巴菲特护城河五要素", "category": "💰 投资", "tags": ["价值投资", "护城河", "选股"], "source": "《巴菲特致股东的信》", "color": "#f59e0b", "html": "<h2>五大护城河</h2>\n<ul>\n<li><strong>无形资产</strong>：品牌、专利、许可证（可口可乐Logo）</li>\n<li><strong>转换成本</strong>：用户换竞品的代价太高（iOS→Android）</li>\n<li><strong>网络效应</strong>：用的人越多越值钱（微信、Visa）</li>\n<li><strong>成本优势</strong>：地理/流程/结构性的低成本</li>\n<li><strong>规模优势</strong>：规模越大成本越低（ Costco）</li>\n</ul>\n<blockquote>\n<p>有护城河的公司，才能穿越周期。</p>\n</blockquote>\n<h2>识别假护城河</h2>\n<ul>\n<li>技术领先≠护城河（容易被模仿）</li>\n<li>高市场份额≠护城河（没有以上五个都是假壁垒）</li>\n<li>优秀管理≠护城河（人走了壁垒还在吗？）</li>\n</ul>", "points": ["<strong>无形资产</strong>：品牌、专利、许可证（可口可乐Logo）", "<strong>转换成本</strong>：用户换竞品的代价太高（iOS→Android）", "<strong>网络效应</strong>：用的人越多越值钱（微信、Visa）", "<strong>成本优势</strong>：地理/流程/结构性的低成本", "<strong>规模优势</strong>：规模越大成本越低（ Costco）"], "mtime": "2026-05-16"}, {"id": "幂律思维", "title": "幂律思维", "category": "💡 思维", "tags": ["思维模型", "投资", "二八法则"], "source": "原创整理", "color": "#3b82f6", "html": "<h2>核心概念</h2>\n<p>少数头部占据大多数价值，这就是幂律分布。</p>\n<ul>\n<li>80%的互联网流量来自20%的网站</li>\n<li>风投靠少数项目覆盖所有失败</li>\n<li>\"航母+卫星\"模式：航母70%做压舱，卫星30%博弹性</li>\n</ul>\n<h2>应用场景</h2>\n<ul>\n<li><strong>投资</strong>：识别头部公司，避开长尾垃圾</li>\n<li><strong>时间管理</strong>：把精力投入20%高价值事项</li>\n<li><strong>产品策略</strong>：聚焦核心功能，不做过度延伸</li>\n</ul>\n<blockquote>\n<p>幂律告诉我们：重要的永远只有那么几件事。</p>\n</blockquote>", "points": ["80%的互联网流量来自20%的网站", "风投靠少数项目覆盖所有失败", "\"航母+卫星\"模式：航母70%做压舱，卫星30%博弹性", "<strong>投资</strong>：识别头部公司，避开长尾垃圾", "<strong>时间管理</strong>：把精力投入20%高价值事项"], "mtime": "2026-05-16"}, {"id": "梅西的足球哲学", "title": "梅西的足球哲学", "category": "⚽ 足球", "tags": ["梅西", "巴塞罗那", "技术流"], "source": "整理", "color": "#ef4444", "html": "<h2>核心特点</h2>\n<ul>\n<li><strong>爆发力</strong>：3步内完成加速，防守队员反应不及</li>\n<li><strong>球感</strong>：触球频率极高，球像粘在脚上</li>\n<li><strong>视野</strong>：禁区内外均能完成致命传球</li>\n<li><strong>低调</strong>：极少假摔，把精力留给比赛</li>\n</ul>\n<h2>人生启示</h2>\n<ul>\n<li>天赋重要，但职业生涯的长度更关键（21年巅峰）</li>\n<li>性格温和不等于竞争力弱</li>\n<li>体系球员×：他能撑起整个体系</li>\n</ul>\n<blockquote>\n<p>天才不是练出来的，但天才必须持续练。</p>\n</blockquote>", "points": ["<strong>爆发力</strong>：3步内完成加速，防守队员反应不及", "<strong>球感</strong>：触球频率极高，球像粘在脚上", "<strong>视野</strong>：禁区内外均能完成致命传球", "<strong>低调</strong>：极少假摔，把精力留给比赛", "天赋重要，但职业生涯的长度更关键（21年巅峰）"], "mtime": "2026-05-16"}, {"id": "见路不走", "title": "见路不走", "category": "🏛️ 历史", "tags": ["豆豆", "文化属性", "哲学"], "source": "《天幕红尘》", "color": "#8b5cf6", "html": "<h2>核心含义</h2>\n<p>\"路\"=别人的经验/教条；\"见路不走\"=不盲目照搬，要看条件是否具备。</p>\n<h2>三种走法</h2>\n<table>\n<thead>\n<tr>\n<th style=\"text-align: left;\">类型</th>\n<th style=\"text-align: left;\">做法</th>\n<th style=\"text-align: left;\">结果</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"text-align: left;\">见路就走</td>\n<td style=\"text-align: left;\">照搬成功经验</td>\n<td style=\"text-align: left;\">邯郸学步</td>\n</tr>\n<tr>\n<td style=\"text-align: left;\">见路非路</td>\n<td style=\"text-align: left;\">理解原理但不执行</td>\n<td style=\"text-align: left;\">空谈</td>\n</tr>\n<tr>\n<td style=\"text-align: left;\">见路不走</td>\n<td style=\"text-align: left;\">分析条件，因地制宜</td>\n<td style=\"text-align: left;\">实事求是</td>\n</tr>\n</tbody>\n</table>\n<h2>投资启示</h2>\n<ul>\n<li>段永平抄底网易≠你可以抄底任何股票</li>\n<li>巴菲特价值投资≠简单PE选股</li>\n<li>要理解原理，不抄表象</li>\n</ul>\n<blockquote>\n<p>因果不虚，见路不走。</p>\n</blockquote>", "points": ["段永平抄底网易≠你可以抄底任何股票", "巴菲特价值投资≠简单PE选股", "要理解原理，不抄表象"], "mtime": "2026-05-16"}];
+const CATEGORIES = {"💰 投资": {"color": "#f59e0b", "count": 1}, "💡 思维": {"color": "#3b82f6", "count": 1}, "⚽ 足球": {"color": "#ef4444", "count": 1}, "🏛️ 历史": {"color": "#8b5cf6", "count": 1}};
+const TAGS = {"价值投资": 1, "护城河": 1, "选股": 1, "思维模型": 1, "投资": 1, "二八法则": 1, "梅西": 1, "巴塞罗那": 1, "技术流": 1, "豆豆": 1, "文化属性": 1, "哲学": 1};
+
+// URL 参数驱动
+const params = new URLSearchParams(location.search);
+let activeCat = params.get('cat') || '';
+let activeTag = params.get('tag') || '';
+let query = params.get('q') || '';
+const searchInput = document.getElementById('searchInput');
+if (query) searchInput.value = query;
+
+function renderCards(cards) {
+  const grid = document.getElementById('cardGrid');
+  document.getElementById('totalCount').textContent = cards.length;
+  document.getElementById('clearBtn').style.display =
+    (activeCat || activeTag || query) ? 'inline-flex' : 'none';
+
+  if (!cards.length) {
+    grid.innerHTML = '<div class="empty"><div class="empty-icon">🗂️</div><p>没有找到匹配的知识卡片</p></div>';
+    return;
+  }
+  grid.innerHTML = cards.map(c => `
+    <a href="card-${c.id}.html" class="card" style="--card-color:${c.color}">
+      <div class="card-accent" style="background:${c.color}"></div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-cat" style="color:${c.color};background:color-mix(in srgb,${c.color}12%,white)">${c.category}</span>
+          <span class="card-date">${c.mtime}</span>
+        </div>
+        <div class="card-title">${c.title}</div>
+        ${c.points.length ? `<ul class="card-points">${c.points.map(p=>`<li>${p}</li>`).join('')}</ul>` : ''}
+        ${c.tags.length ? `<div class="card-tags">${c.tags.map(t=>`<span class="card-tag">#${t}</span>`).join('')}</div>` : ''}
+      </div>
+    </a>
+  `).join('');
+}
+
+function filterCards() {
+  let cards = ALL_CARDS;
+  if (activeCat) cards = cards.filter(c => c.category === activeCat);
+  if (activeTag) cards = cards.filter(c => c.tags.includes(activeTag));
+  if (query) {
+    const q = query.toLowerCase();
+    cards = cards.filter(c => c.title.toLowerCase().includes(q) || c.html.toLowerCase().includes(q) || c.points.some(p=>p.toLowerCase().includes(q)));
+  }
+  renderCards(cards);
+}
+
+function filterByCat(cat) {
+  activeCat = cat || '';
+  history.pushState(null, '', cat ? `?cat=${encodeURIComponent(cat)}` : '/');
+  filterCards();
+  updateCatUI();
+}
+
+function filterByTag(tag) {
+  activeTag = activeTag === tag ? '' : tag;
+  const url = activeTag ? `?tag=${encodeURIComponent(activeTag)}` : (activeCat ? `?cat=${encodeURIComponent(activeCat)}` : '/');
+  history.pushState(null, '', url);
+  filterCards();
+  updateTagUI();
+}
+
+function clearAll() {
+  activeCat = activeTag = query = '';
+  history.pushState(null, '', '/');
+  searchInput.value = '';
+  filterCards();
+  updateCatUI(); updateTagUI();
+}
+
+function updateCatUI() {
+  document.querySelectorAll('.cat-item').forEach(a => {
+    a.classList.toggle('active', a.dataset.cat === activeCat || (!a.dataset.cat && !activeCat));
+  });
+}
+
+function updateTagUI() {
+  document.querySelectorAll('.tag-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tag === activeTag);
+  });
+}
+
+// Events
+searchInput.addEventListener('input', () => {
+  query = searchInput.value.trim();
+  filterCards();
+});
+searchInput.addEventListener('keydown', e => { if (e.key === 'Escape') { searchInput.value = ''; query = ''; filterCards(); }});
+
+document.querySelectorAll('.cat-item[data-cat]').forEach(a => {
+  a.addEventListener('click', e => { e.preventDefault(); filterByCat(a.dataset.cat); });
+});
+document.querySelectorAll('.tag-btn').forEach(btn => {
+  btn.addEventListener('click', () => filterByTag(btn.dataset.tag));
+});
+
+// 初始化
+filterCards();
+if (activeCat) updateCatUI();
+if (activeTag) updateTagUI();
+</script>
+</body>
+</html>
