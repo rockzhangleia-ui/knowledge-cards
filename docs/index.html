@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🃏 知识卡</title>
+<style>/* ═══════════════════════════════════
+   知识卡 — Fresh & Clean Design
+   ═══════════════════════════════════ */
+
+:root {
+  --bg: #f9fafb;
+  --card-bg: #ffffff;
+  --card-hover: #f8fafc;
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --text-secondary: #6b7280;
+  --accent: #6366f1;
+  --accent-light: #eef2ff;
+  --success: #10b981;
+  --success-light: #ecfdf5;
+  --warning: #f59e0b;
+  --warning-light: #fffbeb;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 150ms ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ═══════ Header ═══════ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo { font-size: 24px; }
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.count {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#searchInput {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 14px;
+  outline: none;
+  width: 200px;
+  transition: all var(--transition);
+  background: var(--bg);
+}
+#searchInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+  width: 240px;
+}
+
+.btn-icon {
+  width: 34px;  height: 34px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  color: var(--text-secondary);
+}
+.btn-icon:hover { background: var(--accent-light); color: var(--accent); }
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all var(--transition);
+  font-weight: 500;
+}
+.btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.btn-primary:hover { background: #4f46e5; color: white; }
+.btn-cancel { color: var(--text-secondary); }
+.btn-sm { padding: 5px 14px; font-size: 13px; }
+
+/* ═══════ Cards Grid ═══════ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 24px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.card.pinned {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.card-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.tag-concept { background: #dbeafe; color: #2563eb; }
+.tag-topic { background: #fce7f3; color: #db2777; }
+.tag-entity { background: #d1fae5; color: #059669; }
+.tag-life { background: #fef3c7; color: #d97706; }
+.tag-work { background: #e0e7ff; color: #4f46e5; }
+
+.card-summary {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.card-bullet {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding-left: 12px;
+  position: relative;
+}
+.card-bullet::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.card-actions {
+  display: flex;
+  gap: 4px;
+}
+.card-actions .btn-icon {
+  width: 26px; height: 26px;
+  font-size: 14px;
+}
+
+.card-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.badge-reviewed { background: var(--success-light); color: var(--success); }
+.badge-pinned { background: var(--accent-light); color: var(--accent); }
+
+/* ═══════ Empty State ═══════ */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-secondary);
+}
+.empty-state.hidden { display: none; }
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state p { margin-bottom: 20px; font-size: 15px; }
+
+/* ═══════ Modal ═══════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+.modal-overlay.hidden { display: none; }
+
+.modal-detail {
+  background: var(--card-bg);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-form {
+  background: var(--card-bg);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-lg);
+}
+.modal-sm { max-width: 400px; }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+}
+.modal-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.close-btn {
+  width: 32px; height: 32px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.modal-meta {
+  padding: 4px 24px 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.modal-meta .tag {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.modal-body {
+  padding: 0 24px 20px;
+  font-size: 14px;
+}
+.modal-body h2 { font-size: 16px; margin: 16px 0 8px; }
+.modal-body h3 { font-size: 14px; margin: 12px 0 6px; }
+.modal-body ul { padding-left: 20px; margin: 8px 0; }
+.modal-body li { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
+.modal-body table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px; }
+.modal-body th { background: var(--bg); padding: 6px 10px; text-align: left; font-size: 12px; }
+.modal-body td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
+.modal-body code { font-size: 12px; background: var(--bg); padding: 2px 6px; border-radius: 4px; }
+.modal-body blockquote { border-left: 3px solid var(--accent); padding: 4px 12px; margin: 8px 0; color: var(--text-secondary); font-size: 13px; }
+
+.modal-footer {
+  display: flex;
+  gap: 8px;
+  padding: 12px 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* Form Styles */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-body label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+.form-body input,
+.form-body select,
+.form-body textarea {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 14px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color var(--transition);
+}
+.form-body input:focus,
+.form-body select:focus,
+.form-body textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+}
+.form-body textarea { resize: vertical; min-height: 80px; }
+
+/* ═══════ FAB ═══════ */
+.fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.4);
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(99,102,241,0.5);
+}
+
+/* ═══════ Scrollbar ═══════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ═══════ Responsive ═══════ */
+@media (max-width: 640px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  #searchInput { width: 120px; }
+  #searchInput:focus { width: 160px; }
+  header { padding: 0 14px; }
+  .fab { bottom: 20px; right: 20px; width: 44px; height: 44px; font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <span class="logo">🃏</span>
+    <span class="title">知识卡</span>
+    <span class="count" id="cardCount">0 张</span>
+  </div>
+  <div class="header-right">
+    <input type="text" id="searchInput" placeholder="搜索..." autocomplete="off">
+  </div>
+</header>
+
+<main id="mainContent">
+  <div class="cards-grid" id="cardsGrid"></div>
+  <div id="emptyState" class="empty-state hidden">
+    <div class="empty-icon">📭</div>
+    <p>还没有知识卡</p>
+  </div>
+</main>
+
+<div class="modal-overlay hidden" id="detailModal">
+  <div class="modal-detail">
+    <div class="modal-header">
+      <h2 id="detailTitle"></h2>
+      <button class="btn-icon close-btn" onclick="closeModal('detailModal')">✕</button>
+    </div>
+    <div class="modal-meta" id="detailMeta"></div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" id="btnToggleReview"></button>
+      <button class="btn btn-sm" id="btnTogglePin"></button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="noteModal">
+  <div class="modal-form modal-sm">
+    <div class="modal-header">
+      <h2>📝 备注</h2>
+      <button class="btn-icon close-btn" onclick="closeModal('noteModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <textarea id="noteText" rows="4" placeholder="写点备注..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('noteModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveNote()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════ CARD DATA ═══════
+const CARD_DATA = [{"id":"wiki--concepts--复盘方法论","title":"复盘方法论","path":"wiki/concepts/复盘方法论.md","category":"concept","domain":"工作方法 / 学习方法","summary":"复盘是一种从经验中学习的结构化方法，通过对过去事件的系统性回顾，提炼经验教训，指导未来行动。","bullets":["将隐性经验显性化","避免重复犯错","积累可复用的方法论","形成持续改进的闭环","项目结束后：团队复盘会议"],"createdAt":"2026-04-19","updatedAt":"2026-04-19","pinned":false,"reviewed":false,"note":"","content":"<h1>复盘方法论</h1>\n<blockquote>\n<p>领域：工作方法 | 学习方法\n首次记录：2026-04-19\n最后更新：2026-04-19</p>\n</blockquote>\n<h2>定义</h2>\n<p>复盘是一种从经验中学习的结构化方法，通过对过去事件的系统性回顾，提炼经验教训，指导未来行动。</p>\n<h2>核心要点</h2>\n<h3>复盘四步法</h3>\n<ol>\n<li><strong>回顾目标</strong>：当初的目的是什么？目标是什么？</li>\n<li><strong>评估结果</strong>：实际发生了什么？与目标对比如何？</li>\n<li><strong>分析原因</strong>：为什么会发生？成功/失败的关键因素？</li>\n<li><strong>总结经验</strong>：学到了什么？下一步怎么做？</li>\n</ol>\n<h3>复盘的价值</h3>\n<ul>\n<li>将隐性经验显性化</li>\n<li>避免重复犯错</li>\n<li>积累可复用的方法论</li>\n<li>形成持续改进的闭环</li>\n</ul>\n<h2>应用场景</h2>\n<ul>\n<li><strong>项目结束后</strong>：团队复盘会议</li>\n<li><strong>个人成长</strong>：每周/每月个人复盘</li>\n<li><strong>决策反思</strong>：重大决策后检验效果</li>\n<li><strong>学习过程</strong>：学完一个主题后复盘</li>\n</ul>\n<h2>与其他概念的关系</h2>\n<ul>\n<li>[[反思]] - 复盘是结构化的反思</li>\n<li>[[PDCA循环]] - 复盘是 PDCA 中的 C（Check）和 A（Act）</li>\n<li>[[持续改进]] - 复盘是实现持续改进的核心方法</li>\n</ul>\n<h2>来源</h2>\n<ul>\n<li>钉钉知识库：关键能力/复盘</li>\n<li>字数：1295字</li>\n</ul>\n<hr>\n<p><em>最后更新：2026-04-19</em></p>\n"},{"id":"wiki--concepts--幂律思维","title":"幂律思维","path":"wiki/concepts/幂律思维.md","category":"concept","domain":"认知科学 / 决策","summary":"幂律思维是基于幂律分布（Power Law Distribution）现象的思维模型。在幂律分布中，少数头部事件贡献了大部分价值/影响，与正态分布的\"钟形曲线\"截然不同。","bullets":["头部效应：前 20% 贡献 80% 的价值（帕累托法则）","极端不平等：最大值可能比中位数大几个数量级","无标度性：不存在\"典型值\"","城市人口（少数超级城市）","书籍销量（少数畅销书）"],"createdAt":"2026-04-19","updatedAt":"2026-04-19","pinned":false,"reviewed":false,"note":"","content":"<h1>幂律思维</h1>\n<blockquote>\n<p>领域：认知科学 | 决策\n首次记录：2026-04-19\n最后更新：2026-04-19</p>\n</blockquote>\n<h2>定义</h2>\n<p>幂律思维是基于幂律分布（Power Law Distribution）现象的思维模型。在幂律分布中，少数头部事件贡献了大部分价值/影响，与正态分布的&quot;钟形曲线&quot;截然不同。</p>\n<h2>核心要点</h2>\n<h3>幂律分布的特征</h3>\n<ul>\n<li><strong>头部效应</strong>：前 20% 贡献 80% 的价值（帕累托法则）</li>\n<li><strong>极端不平等</strong>：最大值可能比中位数大几个数量级</li>\n<li><strong>无标度性</strong>：不存在&quot;典型值&quot;</li>\n</ul>\n<h3>幂律思维 vs 线性思维</h3>\n<table>\n<thead>\n<tr>\n<th>线性思维</th>\n<th>幂律思维</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>平均值有意义</td>\n<td>平均值无意义</td>\n</tr>\n<tr>\n<td>投入产出成正比</td>\n<td>投入产出极度不均</td>\n</tr>\n<tr>\n<td>均衡配置资源</td>\n<td>集中资源于头部</td>\n</tr>\n<tr>\n<td>风险分散</td>\n<td>少数押注大赢家</td>\n</tr>\n</tbody></table>\n<h3>幂律分布的常见场景</h3>\n<ul>\n<li>城市人口（少数超级城市）</li>\n<li>书籍销量（少数畅销书）</li>\n<li>投资回报（少数项目贡献大部分回报）</li>\n<li>社交网络（少数节点有大量连接）</li>\n</ul>\n<h2>应用场景</h2>\n<ul>\n<li><strong>投资决策</strong>：寻找幂律分布的机会，集中投资头部</li>\n<li><strong>职业选择</strong>：选择幂律行业，而非线性增长行业</li>\n<li><strong>时间管理</strong>：识别并投入头部 20% 高价值活动</li>\n<li><strong>产品策略</strong>：少数核心功能贡献大部分用户价值</li>\n</ul>\n<h2>相关概念</h2>\n<ul>\n<li>[[帕累托法则（80/20法则）]] - 幂律分布的特例</li>\n<li>[[黑天鹅]] - 极端事件在幂律分布中更常见</li>\n<li>[[复利]] - 幂律增长的动力之一</li>\n<li>[[长尾理论]] - 幂律分布的另一视角</li>\n</ul>\n<h2>来源</h2>\n<ul>\n<li>钉钉知识库：认知&amp;心理/幂律思维</li>\n<li>字数：1416字</li>\n</ul>\n<hr>\n<p><em>最后更新：2026-04-19</em></p>\n"},{"id":"wiki--concepts--认知思维关键原理","title":"认知思维关键原理","path":"wiki/concepts/认知思维关键原理.md","category":"concept","domain":"认知科学 / 心理学","summary":"认知思维关键原理是四个经典的思维模型，帮助我们理解世界的运作方式，做出更好的决策。","bullets":["决策分析 - 用四个原理检验决策质量","问题解决 - 遇到问题时用不同维度思考","学习新领域 - 用第一性原理理解基础知识","风险控制 - 用逆向思维识别风险点","钉钉知识库：认知&心理/认知思维关键原理"],"createdAt":"2026-04-19","updatedAt":"2026-04-19","pinned":false,"reviewed":false,"note":"","content":"<h1>认知思维关键原理</h1>\n<blockquote>\n<p>领域：认知科学 | 心理学\n首次记录：2026-04-19\n最后更新：2026-04-19</p>\n</blockquote>\n<h2>定义</h2>\n<p>认知思维关键原理是四个经典的思维模型，帮助我们理解世界的运作方式，做出更好的决策。</p>\n<h2>核心要点</h2>\n<h3>四个关键原理</h3>\n<ol>\n<li><strong>第一性原理</strong> - 回归事物本质思考</li>\n<li><strong>二阶效应</strong> - 考虑行为的后果的后果</li>\n<li><strong>逆向思维</strong> - 与其思考如何成功，不如思考如何失败</li>\n<li><strong>概率思维</strong> - 用概率而非确定性思考</li>\n</ol>\n<h3>各原理详解</h3>\n<table>\n<thead>\n<tr>\n<th>原理</th>\n<th>核心问题</th>\n<th>应用示例</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>第一性原理</td>\n<td>这个问题的本质是什么？</td>\n<td>马斯克拆解火箭成本</td>\n</tr>\n<tr>\n<td>二阶效应</td>\n<td>If I do X, then what happens as a result?</td>\n<td>降价→销量增加→品牌贬值</td>\n</tr>\n<tr>\n<td>逆向思维</td>\n<td>如何保证失败？然后避免这些行为</td>\n<td>投资中什么一定会亏钱</td>\n</tr>\n<tr>\n<td>概率思维</td>\n<td>各种结果的概率是多少？</td>\n<td>不说&quot;会成功&quot;，说&quot;70%可能成功&quot;</td>\n</tr>\n</tbody></table>\n<h2>应用场景</h2>\n<ul>\n<li><strong>决策分析</strong> - 用四个原理检验决策质量</li>\n<li><strong>问题解决</strong> - 遇到问题时用不同维度思考</li>\n<li><strong>学习新领域</strong> - 用第一性原理理解基础知识</li>\n<li><strong>风险控制</strong> - 用逆向思维识别风险点</li>\n</ul>\n<h2>相关概念</h2>\n<ul>\n<li>[[幂律思维]] - 概率思维的延伸</li>\n<li>[[系统思维]] - 二阶效应是系统思维的基础</li>\n<li>[[复盘方法论]] - 用逆向思维复盘失败原因</li>\n</ul>\n<h2>来源</h2>\n<ul>\n<li>钉钉知识库：认知&amp;心理/认知思维关键原理</li>\n<li>字数：332字</li>\n</ul>\n<hr>\n<p><em>最后更新：2026-04-19</em></p>\n"},{"id":"wiki--topics--健康","title":"健康","path":"wiki/topics/健康.md","category":"topic","domain":"生活 / 身心","summary":"健康管理涵盖作息、饮食、运动、体检等方面，是个人成长和工作的基础保障。","bullets":["`life/健康.md` - 健康管理详细记录"],"createdAt":"","updatedAt":"2026-04-19","pinned":false,"reviewed":false,"note":"","content":"<h1>健康</h1>\n<blockquote>\n<p>分类：生活 | 身心\n页面数：1\n最后更新：2026-04-19</p>\n</blockquote>\n<h2>概述</h2>\n<p>健康管理涵盖作息、饮食、运动、体检等方面，是个人成长和工作的基础保障。</p>\n<h2>子主题</h2>\n<ul>\n<li>[[作息管理]] - 睡眠规律、精力管理</li>\n<li>[[饮食管理]] - 营养搭配、饮食习惯</li>\n<li>[[运动计划]] - 运动类型、频率、目标</li>\n<li>[[体检监测]] - 定期检查、指标追踪</li>\n</ul>\n<h2>核心概念</h2>\n<ul>\n<li>[[精力管理]] - 比时间管理更重要</li>\n<li>[[生物节律]] - 顺应身体的自然周期</li>\n<li>[[预防思维]] - 健康问题防大于治</li>\n</ul>\n<h2>当前状态</h2>\n<table>\n<thead>\n<tr>\n<th>维度</th>\n<th>目标</th>\n<th>现状</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>作息</td>\n<td>早睡早起</td>\n<td>待记录</td>\n</tr>\n<tr>\n<td>饮食</td>\n<td>均衡营养</td>\n<td>待记录</td>\n</tr>\n<tr>\n<td>运动</td>\n<td>每周 3-4 次</td>\n<td>待记录</td>\n</tr>\n<tr>\n<td>体检</td>\n<td>每年 1 次</td>\n<td>待更新</td>\n</tr>\n</tbody></table>\n<h2>最近更新</h2>\n<table>\n<thead>\n<tr>\n<th>日期</th>\n<th>更新内容</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>2026-04-19</td>\n<td>从钉钉导入健康文档</td>\n</tr>\n</tbody></table>\n<h2>待探索问题</h2>\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> 制定具体的作息时间表</li>\n<li><input disabled=\"\" type=\"checkbox\"> 设计适合的运动计划</li>\n<li><input disabled=\"\" type=\"checkbox\"> 最近一次体检结果分析</li>\n</ul>\n<h2>相关文件</h2>\n<ul>\n<li><code>life/健康.md</code> - 健康管理详细记录</li>\n</ul>\n<hr>\n<p><em>最后更新：2026-04-19</em></p>\n"},{"id":"wiki--topics--投资理财","title":"投资理财","path":"wiki/topics/投资理财.md","category":"topic","domain":"生活 / 财务","summary":"投资理财主题涵盖个人财务管理、投资策略、资产配置等内容。核心目标是在风险可控的前提下，实现资产保值增值。","bullets":["张建鹏（出借 15 万）","刘普春（出借 2 万）","张寒（出借 10 万）","`life/赚钱理财配置.md` - 详细配置信息","`life/0 Personal Design.md` - 包含出借记录"],"createdAt":"","updatedAt":"2026-04-19","pinned":false,"reviewed":false,"note":"","content":"<h1>投资理财</h1>\n<blockquote>\n<p>分类：生活 | 财务\n页面数：2\n最后更新：2026-04-19</p>\n</blockquote>\n<h2>概述</h2>\n<p>投资理财主题涵盖个人财务管理、投资策略、资产配置等内容。核心目标是在风险可控的前提下，实现资产保值增值。</p>\n<h2>子主题</h2>\n<ul>\n<li>[[资产配置]] - 资金在不同资产间的分配</li>\n<li>[[投资策略]] - 具体的投资方法论</li>\n<li>[[风险管理]] - 识别和控制投资风险</li>\n</ul>\n<h2>核心概念</h2>\n<ul>\n<li>[[幂律思维]] - 少数投资贡献大部分回报</li>\n<li>[[概率思维]] - 用概率评估投资机会</li>\n<li>[[复利]] - 时间是投资的朋友</li>\n</ul>\n<h2>关键实体</h2>\n<ul>\n<li>张建鹏（出借 15 万）</li>\n<li>刘普春（出借 2 万）</li>\n<li>张寒（出借 10 万）</li>\n</ul>\n<h2>当前投资配置</h2>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>说明</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>现金/货币基金</td>\n<td>日常备用金</td>\n</tr>\n<tr>\n<td>ETF 定投</td>\n<td>指数基金定期投资</td>\n</tr>\n<tr>\n<td>出借</td>\n<td>民间借贷（需关注风险）</td>\n</tr>\n</tbody></table>\n<h2>最近更新</h2>\n<table>\n<thead>\n<tr>\n<th>日期</th>\n<th>更新内容</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>2026-04-19</td>\n<td>从钉钉导入理财配置文档</td>\n</tr>\n</tbody></table>\n<h2>待探索问题</h2>\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> 出借资金的风险评估和回收计划</li>\n<li><input disabled=\"\" type=\"checkbox\"> ETF 定投的具体策略（品种、频率）</li>\n<li><input disabled=\"\" type=\"checkbox\"> 是否需要配置海外资产</li>\n</ul>\n<h2>相关文件</h2>\n<ul>\n<li><code>life/赚钱理财配置.md</code> - 详细配置信息</li>\n<li><code>life/0 Personal Design.md</code> - 包含出借记录</li>\n</ul>\n<hr>\n<p><em>最后更新：2026-04-19</em></p>\n"},{"id":"wiki--topics--认知思维","title":"认知思维","path":"wiki/topics/认知思维.md","category":"topic","domain":"学习 / 方法论","summary":"认知思维主题涵盖思维模型、认知偏差、决策方法等内容。掌握优秀的思维模型是做出高质量决策的基础。","bullets":["`life/幂律思维.md`","`life/认知思维关键原理.md`","`work/skills/复盘方法论.md`"],"createdAt":"","updatedAt":"2026-04-19","pinned":false,"reviewed":false,"note":"","content":"<h1>认知思维</h1>\n<blockquote>\n<p>分类：学习 | 方法论\n页面数：3\n最后更新：2026-04-19</p>\n</blockquote>\n<h2>概述</h2>\n<p>认知思维主题涵盖思维模型、认知偏差、决策方法等内容。掌握优秀的思维模型是做出高质量决策的基础。</p>\n<h2>子主题</h2>\n<ul>\n<li>[[思维模型]] - 经典的认知框架</li>\n<li>[[决策方法]] - 如何做出更好的选择</li>\n<li>[[认知偏差]] - 常见的思维陷阱</li>\n</ul>\n<h2>核心概念</h2>\n<ul>\n<li>[[幂律思维]] - 理解极端不平等的世界</li>\n<li>[[认知思维关键原理]] - 第一性原理、二阶效应、逆向思维、概率思维</li>\n<li>[[复盘方法论]] - 从经验中学习的结构化方法</li>\n</ul>\n<h2>概念关系图</h2>\n<pre><code>认知思维\n├── 思维模型\n│   ├── 幂律思维\n│   ├── 概率思维\n│   └── 系统思维\n├── 决策方法\n│   ├── 第一性原理\n│   ├── 二阶效应\n│   └── 逆向思维\n└── 学习方法\n    └── 复盘方法论\n</code></pre>\n<h2>最近更新</h2>\n<table>\n<thead>\n<tr>\n<th>日期</th>\n<th>更新内容</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>2026-04-19</td>\n<td>创建三个核心概念页面</td>\n</tr>\n</tbody></table>\n<h2>待探索问题</h2>\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> 还有哪些重要的思维模型需要学习？</li>\n<li><input disabled=\"\" type=\"checkbox\"> 如何在日常决策中应用这些模型？</li>\n<li><input disabled=\"\" type=\"checkbox\"> 常见认知偏差有哪些？如何避免？</li>\n</ul>\n<h2>相关文件</h2>\n<ul>\n<li><code>life/幂律思维.md</code></li>\n<li><code>life/认知思维关键原理.md</code></li>\n<li><code>work/skills/复盘方法论.md</code></li>\n</ul>\n<hr>\n<p><em>最后更新：2026-04-19</em></p>\n"},{"id":"life--0 Personal Design","title":"0 Personal Design","path":"life/0 Personal Design.md","category":"life","domain":"","summary":"个人知识管理体系建立（学习规划）","bullets":["个人信息管理的图谱，画一张图，做好管理和更新","理财规划 - 学习如何理财","AI工具，进入生活","● 刘普春 - 20000元（城配下属）","● 张寒 - 100000元，2025.6.28"],"createdAt":"2025-03-02","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>0 Personal Design</h1>\n<blockquote>\n<p>来源：钉钉文档 | <a href=\"https://alidocs.dingtalk.com/i/nodes/MyQA2dXW7elaGvN9s2DPy4e0JzlwrZgb\">https://alidocs.dingtalk.com/i/nodes/MyQA2dXW7elaGvN9s2DPy4e0JzlwrZgb</a>\n作者：张磊\n创建：2025-03-02\n最后编辑：04-12\n字数：1107 字</p>\n</blockquote>\n<hr>\n<h2>一、个人规划</h2>\n<p>个人知识管理体系建立（学习规划）</p>\n<ul>\n<li>个人信息管理的图谱，画一张图，做好管理和更新</li>\n<li>理财规划 - 学习如何理财</li>\n<li>AI工具，进入生活</li>\n</ul>\n<h2>二、年度规划</h2>\n<p>（待填充）</p>\n<h2>三、月度规划</h2>\n<p>（待填充）</p>\n<h2>四、To Do</h2>\n<p>（待填充）</p>\n<h2>Back Up</h2>\n<h3>出借</h3>\n<ul>\n<li>● 张建鹏 - 50000（2019.11.15）+50000（2020.12.16）+20000（2021.1.7）+30000（2021.1.16）=150000元</li>\n<li>● 刘普春 - 20000元（城配下属）</li>\n<li>● 张寒 - 100000元，2025.6.28</li>\n</ul>\n<h3>记录</h3>\n<ul>\n<li>Apple ID - <a href=\"mailto:***@***\">***@***</a>, Pxh10086.., 18656831252</li>\n<li>OpenRouter API Key - sk-xxx[已隐藏]</li>\n</ul>\n<hr>\n<blockquote>\n<p>💡 这是一份个人规划文档，建议定期回顾更新。</p>\n</blockquote>\n"},{"id":"life--健康","title":"健康","path":"life/健康.md","category":"life","domain":"","summary":"","bullets":["日常作息+睡眠","饮食","饮酒","运动","体检"],"createdAt":"2025-03-02","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>1 健康</h1>\n<blockquote>\n<p>来源：钉钉文档\n作者：张磊\n创建：2025-03-02\n最后编辑：04-18\n字数：318 字</p>\n</blockquote>\n<hr>\n<ul>\n<li>日常作息+睡眠</li>\n<li>饮食</li>\n<li>饮酒</li>\n<li>运动</li>\n<li>体检</li>\n</ul>\n"},{"id":"life--学习主题目录","title":"学习主题目录","path":"life/学习主题目录.md","category":"life","domain":"","summary":"1. 认知，哲学","bullets":["银发经济","政治经济 - 犹太财团，线人（黑石，高盛等）","AI+算法","高效学习管理","尹烨 生命科学"],"createdAt":"2025-03-02","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>4 学习</h1>\n<blockquote>\n<p>来源：钉钉文档\n作者：张磊\n创建：2025-03-02\n最后编辑：01-31\n字数：140 字</p>\n</blockquote>\n<hr>\n<h2>学习主题目录</h2>\n<ol>\n<li>认知，哲学</li>\n<li>时间管理，精力管理</li>\n<li>心理，焦虑管理</li>\n<li>金融投资-储蓄，股票，黄金，外汇</li>\n<li>兴趣-足球，茶，军事，表，F1，格言谚语</li>\n<li>行业研究-游戏，银发，酒店，航空</li>\n</ol>\n<hr>\n<h3>专项主题</h3>\n<ul>\n<li>银发经济</li>\n<li>政治经济 - 犹太财团，线人（黑石，高盛等）</li>\n<li>AI+算法</li>\n<li>高效学习管理</li>\n<li>尹烨 生命科学</li>\n<li>茶专题</li>\n</ul>\n<h3>读书/学习</h3>\n<ul>\n<li>读书《共生的智慧》</li>\n<li>辛普森一家</li>\n<li>投资 - 段永平</li>\n<li>投资 - 巴菲特</li>\n</ul>\n"},{"id":"life--幂律思维","title":"幂律思维","path":"life/幂律思维.md","category":"life","domain":"","summary":"幂律思维是一种基于**幂律分布（Power Law Distribution）**的思维方式。幂律分布是一种统计学现象，指的是某些系统中变量之间的关系遵循一个非线性的幂函数形式：","bullets":["少数网站吸引了绝大多数的网络流量","少数富豪拥有绝大多数的财富","少数城市集中了绝大多数的人口"],"createdAt":"2025-03-07","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>幂律思维</h1>\n<blockquote>\n<p>来源：钉钉文档\n作者：张磊\n创建：2025-03-07\n字数：1416 字</p>\n</blockquote>\n<hr>\n<h2>幂律思维是什么？</h2>\n<p>幂律思维是一种基于**幂律分布（Power Law Distribution）**的思维方式。幂律分布是一种统计学现象，指的是某些系统中变量之间的关系遵循一个非线性的幂函数形式：</p>\n<p>$$y = kx^{-\\alpha}$$</p>\n<p>其中，$k$ 是比例常数，$\\alpha$ 是幂指数，通常为正数。</p>\n<h3>幂律分布的特点</h3>\n<p>幂律分布的特点是&quot;少数占据多数&quot;，即在许多自然和社会现象中，少数个体或事件占据了绝大多数的资源、影响力或结果。例如：</p>\n<ul>\n<li>少数网站吸引了绝大多数的网络流量</li>\n<li>少数富豪拥有绝大多数的财富</li>\n<li>少数城市集中了绝大多数的人口</li>\n</ul>\n<p>这种分布与正态分布（钟形曲线）不同，正态分布强调的是均值附近的集中性，而幂律分布则表现出极端的不均衡性和长尾效应。</p>\n<hr>\n<h2>幂律思维的核心思想</h2>\n<h3>1. 关注极端值和头部效应</h3>\n<p>在幂律分布中，极少数的&quot;头部&quot;个体或事件对整体结果的影响远远超过其他部分。因此，幂律思维要求我们特别关注这些头部因素，而不是平均化地看待所有个体。</p>\n<h3>2. 识别长尾机会</h3>\n<p>除了头部效应，幂律分布还存在一个&quot;长尾&quot;部分，即大量小规模的个体或事件虽然单个影响有限，但总量可能非常可观。这为创新和差异化提供了潜在的机会。</p>\n<h3>3. 理解非线性增长</h3>\n<p>幂律分布揭示了系统中非线性增长的规律。例如，财富积累、社交网络的增长、知识传播等往往不是匀速进行的，而是呈现出加速或放大的趋势。</p>\n<hr>\n<blockquote>\n<p>💡 <strong>核心观点</strong>：关注头部、识别长尾、理解非线性</p>\n</blockquote>\n"},{"id":"life--情感送礼记录","title":"情感送礼记录","path":"life/情感送礼记录.md","category":"life","domain":"","summary":"- 2025Q1 - 金华火腿","bullets":["2025Q1 - 金华火腿","2025Q2 - 西湖龙井","2025Q4 - 大黄鱼很不错","2026Q1 - 今年的金华火腿不错","2026Q2 - 西湖龙井可以喝起来？"],"createdAt":"2025-03-02","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>3 情感</h1>\n<blockquote>\n<p>来源：钉钉文档\n作者：张磊\n创建：2025-03-02\n最后编辑：04-15\n字数：140 字</p>\n</blockquote>\n<hr>\n<h2>一、家庭</h2>\n<h2>二、联系人</h2>\n<ul>\n<li>2025Q1 - 金华火腿</li>\n<li>2025Q2 - 西湖龙井</li>\n<li>2025Q4 - 大黄鱼很不错</li>\n<li>2026Q1 - 今年的金华火腿不错</li>\n<li>2026Q2 - 西湖龙井可以喝起来？</li>\n</ul>\n"},{"id":"life--认知思维关键原理","title":"认知思维关键原理","path":"life/认知思维关键原理.md","category":"life","domain":"","summary":"- **拉普拉斯妖** - 决定论","bullets":["拉普拉斯妖 - 决定论","芝诺的乌龟","麦克斯韦的妖","薛定谔的猫"],"createdAt":"2025-03-07","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>认知思维关键原理</h1>\n<blockquote>\n<p>来源：钉钉文档 | <a href=\"https://alidocs.dingtalk.com/i/nodes/\">https://alidocs.dingtalk.com/i/nodes/</a>\n作者：张磊\n创建：2025-03-07\n字数：33 字</p>\n</blockquote>\n<hr>\n<h2>关键原理</h2>\n<ul>\n<li><strong>拉普拉斯妖</strong> - 决定论</li>\n<li><strong>芝诺的乌龟</strong></li>\n<li><strong>麦克斯韦的妖</strong></li>\n<li><strong>薛定谔的猫</strong></li>\n</ul>\n<hr>\n<blockquote>\n<p>💡 四个经典的思维模型/思想实验</p>\n</blockquote>\n"},{"id":"life--赚钱理财配置","title":"赚钱理财配置","path":"life/赚钱理财配置.md","category":"life","domain":"","summary":"理财规划 - 长期主义 + 第二收入","bullets":["A保本：储蓄 + 国债","B稳健：稳定股息股票 + 指数基金","C激进：股票+热门事项","长期储蓄100","理财产品55"],"createdAt":"2025-03-02","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>2 赚钱</h1>\n<blockquote>\n<p>来源：钉钉文档\n作者：张磊\n创建：2025-03-02\n最后编辑：04-18\n字数：506 字</p>\n</blockquote>\n<hr>\n<h2>一、理财</h2>\n<p>理财规划 - 长期主义 + 第二收入</p>\n<ul>\n<li><strong>A保本</strong>：储蓄 + 国债</li>\n<li><strong>B稳健</strong>：稳定股息股票 + 指数基金</li>\n<li><strong>C激进</strong>：股票+热门事项</li>\n</ul>\n<hr>\n<h2>国内-招商银行</h2>\n<ul>\n<li>长期储蓄100</li>\n<li>理财产品55</li>\n<li>养老金6</li>\n<li>企业年金-联想0.4646</li>\n</ul>\n<h2>汇丰中国+香港</h2>\n<ul>\n<li>固定理财50</li>\n<li>未来迭代到债基金，通过支付宝购买后转移到汇丰托管</li>\n</ul>\n<h2>兴业</h2>\n<ul>\n<li>购汇</li>\n</ul>\n<h2>国内证券-涨乐</h2>\n<ul>\n<li>银行股</li>\n<li>行业头部-茅台</li>\n<li>国企垄断（神华、长江电力）</li>\n<li>宁德</li>\n<li>寻找其他行业重要股份</li>\n</ul>\n<h2>富途</h2>\n<ul>\n<li>美股<ul>\n<li>科技 - 苹果、阿里、巴菲特、纳指7科技</li>\n<li>快消 - 可口可乐</li>\n<li>ETF - 纳指100、标普500</li>\n</ul>\n</li>\n<li>港股-腾讯、阿里</li>\n</ul>\n<h2>中银</h2>\n<ul>\n<li>阿里港股</li>\n<li>阿里美股</li>\n</ul>\n"},{"id":"work--skills--复盘方法论","title":"复盘方法论","path":"work/skills/复盘方法论.md","category":"skills","domain":"","summary":"复盘是一种通过回顾、分析和总结过去的行为、决策或事件，从而提炼经验教训、优化未来行动的方法。它广泛应用于个人成长、团队协作、项目管理等领域。养成复盘的习惯并实现高质量的复盘，需要掌握科学的方法，并坚持实践。","bullets":["明确初衷：复盘的第一步是清晰地回顾当初设定的目标是什么。目标可以是具体的任务指标、项目的预期成果，也可以是个人的成长方向。","避免偏差：确保目标是明确、可衡量的，避免模糊不清的描述。例如，\"提升团队效率\"可以具体化为\"将项目交付时间缩短20%\"。","对比实际与目标：将实际完成的结果与最初设定的目标进行对比，找出差距或超额完成的部分。","数据支持：尽量用数据或事实来支撑评估，避免主观臆断。例如，\"销售额增长了15%，但距离目标还有5%的差距\"。","成功的原因：分析哪些因素促成了目标的达成，例如资源充足、团队配合默契、策略得当等。"],"createdAt":"2025-03-07","updatedAt":"","pinned":false,"reviewed":false,"note":"","content":"<h1>复盘</h1>\n<blockquote>\n<p>来源：钉钉文档 | <a href=\"https://alidocs.dingtalk.com/i/nodes/NDoBb60VLQlZ045rFNB54Y6pJlemrZQ3\">https://alidocs.dingtalk.com/i/nodes/NDoBb60VLQlZ045rFNB54Y6pJlemrZQ3</a>\n作者：张磊\n创建：2025-03-07\n字数：1295 字</p>\n</blockquote>\n<hr>\n<p>复盘是一种通过回顾、分析和总结过去的行为、决策或事件，从而提炼经验教训、优化未来行动的方法。它广泛应用于个人成长、团队协作、项目管理等领域。养成复盘的习惯并实现高质量的复盘，需要掌握科学的方法，并坚持实践。</p>\n<h2>一、复盘的核心方法</h2>\n<p>复盘通常分为四个阶段：回顾目标、评估结果、分析原因、总结经验。这四个阶段构成了一个完整的闭环。</p>\n<h3>1. 回顾目标</h3>\n<ul>\n<li><strong>明确初衷</strong>：复盘的第一步是清晰地回顾当初设定的目标是什么。目标可以是具体的任务指标、项目的预期成果，也可以是个人的成长方向。</li>\n<li><strong>避免偏差</strong>：确保目标是明确、可衡量的，避免模糊不清的描述。例如，&quot;提升团队效率&quot;可以具体化为&quot;将项目交付时间缩短20%&quot;。</li>\n</ul>\n<h3>2. 评估结果</h3>\n<ul>\n<li><strong>对比实际与目标</strong>：将实际完成的结果与最初设定的目标进行对比，找出差距或超额完成的部分。</li>\n<li><strong>数据支持</strong>：尽量用数据或事实来支撑评估，避免主观臆断。例如，&quot;销售额增长了15%，但距离目标还有5%的差距&quot;。</li>\n</ul>\n<h3>3. 分析原因</h3>\n<ul>\n<li><strong>成功的原因</strong>：分析哪些因素促成了目标的达成，例如资源充足、团队配合默契、策略得当等。</li>\n<li><strong>失败的原因</strong>：深入挖掘未达成目标的根本原因，可能是计划不周、执行不到位、外部环境变化等。</li>\n<li><strong>区分可控与不可控因素</strong>：明确哪些因素是可以控制的（如个人努力），哪些是不可控的（如市场波动）。</li>\n</ul>\n<h3>4. 总结经验</h3>\n<ul>\n<li><strong>提炼规律</strong>：从分析中提炼出可以重复使用的方法论或注意事项。例如，&quot;在跨部门协作中，提前明确职责分工可以显著提高效率&quot;。</li>\n</ul>\n<hr>\n<blockquote>\n<p>💡 <strong>复盘四步法</strong>：回顾目标 → 评估结果 → 分析原因 → 总结经验</p>\n</blockquote>\n"}];
+
+// ═══════ APP LOGIC ═══════
+let cards = [];
+let currentCardId = null;
+let noteCardId = null;
+
+function loadCards() {
+  cards = [...CARD_DATA];
+  loadLocalMeta();
+  renderCards();
+  document.getElementById('cardCount').textContent = cards.length + ' 张';
+}
+
+function loadLocalMeta() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('kc_meta') || '{}');
+    cards.forEach(c => {
+      if (saved[c.id]) {
+        if (saved[c.id].pinned) c.pinned = true;
+        if (saved[c.id].reviewed) c.reviewed = true;
+        if (saved[c.id].note) c.note = saved[c.id].note;
+      }
+    });
+  } catch(e) {}
+}
+
+function saveLocalMeta() {
+  const meta = {};
+  cards.forEach(c => {
+    meta[c.id] = { pinned: !!c.pinned, reviewed: !!c.reviewed, note: c.note || '' };
+  });
+  localStorage.setItem('kc_meta', JSON.stringify(meta));
+}
+
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  const empty = document.getElementById('emptyState');
+  const query = (document.getElementById('searchInput').value || '').toLowerCase();
+
+  let filtered = cards;
+  if (query) {
+    filtered = cards.filter(c =>
+      c.title.toLowerCase().includes(query) ||
+      (c.summary||'').toLowerCase().includes(query) ||
+      (c.domain||'').toLowerCase().includes(query) ||
+      c.bullets.some(b => b.toLowerCase().includes(query)) ||
+      (c.note||'').toLowerCase().includes(query)
+    );
+  }
+
+  if (cards.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+
+  empty.classList.add('hidden');
+  document.getElementById('cardCount').textContent = filtered.length + ' / ' + cards.length + ' 张';
+
+  grid.innerHTML = filtered.map(c => '<div class="card ' + (c.pinned ? 'pinned' : '') + '" onclick="openDetail(\'' + c.id + '\')"><div class="card-header"><span class="card-title">' + escHtml(c.title) + '</span><span class="card-tag tag-' + c.category + '">' + categoryLabel(c.category) + '</span></div>' + (c.summary ? '<div class="card-summary">' + escHtml(c.summary) + '</div>' : '') + (c.bullets.length ? '<div class="card-bullets">' + c.bullets.slice(0,3).map(b => '<span class="card-bullet">' + escHtml(b) + '</span>').join('') + '</div>' : '') + '<div class="card-footer"><span>' + (c.domain || '未分类') + (c.note ? ' 💬' : '') + '</span><div class="card-actions" onclick="event.stopPropagation()">' + (c.reviewed ? '<span class="card-badge badge-reviewed">已复习</span>' : '') + (c.pinned ? '<span class="card-badge badge-pinned">置顶</span>' : '') + '<button class="btn-icon" onclick="togglePin(\'' + c.id + '\')">📌</button><button class="btn-icon" onclick="openNote(\'' + c.id + '\')">📝</button></div></div></div>').join('');
+}
+
+function openDetail(id) {
+  currentCardId = id;
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+  document.getElementById('detailTitle').textContent = card.title;
+  document.getElementById('detailMeta').innerHTML = '<span class="card-tag tag-' + card.category + '">' + categoryLabel(card.category) + '</span>' + (card.domain ? ' <span class="tag">' + escHtml(card.domain) + '</span>' : '') + (card.updatedAt ? ' <span>更新于 ' + card.updatedAt + '</span>' : '');
+  document.getElementById('detailBody').innerHTML = card.content || '<p>暂无详细内容</p>';
+  document.getElementById('btnToggleReview').textContent = card.reviewed ? '✅ 已复习' : '📖 标记已复习';
+  document.getElementById('btnToggleReview').onclick = function() { toggleReview(id); };
+  document.getElementById('btnTogglePin').textContent = card.pinned ? '📌 取消置顶' : '📌 置顶';
+  document.getElementById('btnTogglePin').onclick = function() { togglePin(id); };
+  showModal('detailModal');
+}
+
+function togglePin(id) {
+  const card = cards.find(c => c.id === id);
+  if (card) card.pinned = !card.pinned;
+  saveLocalMeta();
+  renderCards();
+}
+
+function toggleReview(id) {
+  const card = cards.find(c => c.id === id);
+  if (card) card.reviewed = !card.reviewed;
+  saveLocalMeta();
+  renderCards();
+  closeModal('detailModal');
+}
+
+function openNote(id) {
+  noteCardId = id;
+  const card = cards.find(c => c.id === id);
+  document.getElementById('noteText').value = card ? (card.note || '') : '';
+  showModal('noteModal');
+}
+
+function saveNote() {
+  const note = document.getElementById('noteText').value.trim();
+  const card = cards.find(c => c.id === noteCardId);
+  if (card) card.note = note;
+  saveLocalMeta();
+  renderCards();
+  closeModal('noteModal');
+}
+
+function showModal(id) {
+  document.getElementById(id).classList.remove('hidden');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+function categoryLabel(cat) {
+  var map = { concept: '概念', topic: '主题', entity: '实体', life: '生活', work: '工作' };
+  return map[cat] || cat;
+}
+
+function escHtml(str) {
+  var div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', function() {
+  loadCards();
+  document.getElementById('searchInput').addEventListener('input', debounce(renderCards, 200));
+});
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(function(m) { closeModal(m.id); });
+  }
+});
+
+function debounce(fn, ms) {
+  var timer;
+  return function() {
+    var args = arguments;
+    var ctx = this;
+    clearTimeout(timer);
+    timer = setTimeout(function() { fn.apply(ctx, args); }, ms);
+  };
+}
+</script>
+</body>
+</html>
