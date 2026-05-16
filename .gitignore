@@ -1,0 +1,4 @@
+node_modules/
+cards.json
+.DS_Store
+*.log

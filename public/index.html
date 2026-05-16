@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🃏 知识卡</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <span class="logo">🃏</span>
+    <span class="title">知识卡</span>
+    <span class="count" id="cardCount">0 张</span>
+  </div>
+  <div class="header-right">
+    <input type="text" id="searchInput" placeholder="搜索..." autocomplete="off">
+    <button class="btn-icon" id="btnManage" title="管理">⚙️</button>
+    <button class="btn-icon" id="btnRefresh" title="刷新">↻</button>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main id="mainContent">
+  <div class="cards-grid" id="cardsGrid"></div>
+  <div id="emptyState" class="empty-state hidden">
+    <div class="empty-icon">📭</div>
+    <p>还没有知识卡</p>
+    <button class="btn" onclick="openAddCard()">+ 创建第一张</button>
+  </div>
+</main>
+
+<!-- Card Detail Modal -->
+<div class="modal-overlay hidden" id="detailModal">
+  <div class="modal-detail">
+    <div class="modal-header">
+      <h2 id="detailTitle"></h2>
+      <button class="btn-icon close-btn" onclick="closeModal('detailModal')">✕</button>
+    </div>
+    <div class="modal-meta" id="detailMeta"></div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" id="btnToggleReview"></button>
+      <button class="btn btn-sm" id="btnTogglePin"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Card Modal -->
+<div class="modal-overlay hidden" id="addModal">
+  <div class="modal-form">
+    <div class="modal-header">
+      <h2 id="addModalTitle">新建知识卡</h2>
+      <button class="btn-icon close-btn" onclick="closeModal('addModal')">✕</button>
+    </div>
+    <div class="modal-body form-body">
+      <label>标题</label>
+      <input type="text" id="addTitle" placeholder="输入标题...">
+
+      <label>分类</label>
+      <select id="addCategory">
+        <option value="concept">🧠 概念</option>
+        <option value="topic">📂 主题</option>
+        <option value="entity">👤 实体</option>
+        <option value="life">🌿 生活</option>
+      </select>
+
+      <label>领域 / 标签</label>
+      <input type="text" id="addDomain" placeholder="如：认知科学、投资...">
+
+      <label>概述（一句话）</label>
+      <input type="text" id="addSummary" placeholder="核心内容概括...">
+
+      <label>要点（每行一条）</label>
+      <textarea id="addBullets" rows="4" placeholder="要点一&#10;要点二&#10;要点三"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('addModal')">取消</button>
+      <button class="btn btn-primary" onclick="submitCard()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Note Modal -->
+<div class="modal-overlay hidden" id="noteModal">
+  <div class="modal-form modal-sm">
+    <div class="modal-header">
+      <h2>📝 备注</h2>
+      <button class="btn-icon close-btn" onclick="closeModal('noteModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <textarea id="noteText" rows="4" placeholder="写点备注..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('noteModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveNote()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Action Button -->
+<button class="fab" id="fabAdd" title="新建知识卡" onclick="openAddCard()">+</button>
+
+<script src="app.js"></script>
+</body>
+</html>
