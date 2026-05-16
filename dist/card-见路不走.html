@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>见路不走 — 知识卡片</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f7f8fa;--surface:#ffffff;--text:#1a1d24;--text-muted:#8896a7;--border:#e8edf2;--accent:#6c8ebf;--radius:16px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Noto Sans SC',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+    header{background:rgba(255,255,255,0.92);border-bottom:1px solid var(--border);padding:0 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .header-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+    .logo{font-size:15px;font-weight:600;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;border:none;transition:all .2s;font-family:inherit}
+    .btn-ghost{background:transparent;color:var(--text-muted);border:1.5px solid var(--border)}
+    .btn-ghost:hover{background:var(--bg);color:var(--text)}
+    .container{max-width:800px;margin:32px auto;padding:0 24px 60px}
+    .card{background:var(--surface);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    .card-accent{height:5px}
+    .card-body{padding:32px}
+    .card-meta{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+    .card-cat{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px}
+    .card-date{font-size:12px;color:var(--text-muted)}
+    .card-title{font-size:24px;font-weight:700;margin-bottom:24px;line-height:1.35}
+    .card-content{font-size:15px;color:var(--text)}
+    .card-content h1,.card-content h2,.card-content h3{font-weight:600;margin:20px 0 10px}
+    .card-content p{margin-bottom:12px}
+    .card-content ul,.card-content ol{padding-left:24px;margin-bottom:12px}
+    .card-content li{margin-bottom:6px}
+    .card-content blockquote{border-left:3px solid #8b5cf6;padding-left:16px;color:var(--text-muted);margin:16px 0;font-style:italic}
+    .card-content table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px}
+    .card-content th,.card-content td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+    .card-content th{background:var(--bg);font-weight:600}
+    .card-content code{background:var(--bg);padding:2px 6px;border-radius:4px;font-size:13px}
+    .card-tags{margin-top:28px;display:flex;flex-wrap:wrap;gap:6px}
+    .card-tag{font-size:12px;padding:3px 10px;border-radius:6px;background:var(--bg);color:var(--text-muted)}
+    .card-source{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted)}
+    .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:13px;margin-bottom:16px}
+    .back-link:hover{color:var(--text)}
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">📚 知识卡片</a>
+    <a href="/" class="btn btn-ghost">← 返回</a>
+  </div>
+</header>
+<div class="container">
+  <a href="/" class="back-link">← 返回列表</a>
+  <div class="card">
+    <div class="card-accent" style="background:#8b5cf6"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-cat" style="color:#8b5cf6;background:color-mix(in srgb,#8b5cf612%,white)">🏛️ 历史</span>
+        <span class="card-date">2026-05-16</span>
+      </div>
+      <h1 class="card-title">见路不走</h1>
+      <div class="card-content"><h2>核心含义</h2>
+<p>"路"=别人的经验/教条；"见路不走"=不盲目照搬，要看条件是否具备。</p>
+<h2>三种走法</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">类型</th>
+<th style="text-align: left;">做法</th>
+<th style="text-align: left;">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">见路就走</td>
+<td style="text-align: left;">照搬成功经验</td>
+<td style="text-align: left;">邯郸学步</td>
+</tr>
+<tr>
+<td style="text-align: left;">见路非路</td>
+<td style="text-align: left;">理解原理但不执行</td>
+<td style="text-align: left;">空谈</td>
+</tr>
+<tr>
+<td style="text-align: left;">见路不走</td>
+<td style="text-align: left;">分析条件，因地制宜</td>
+<td style="text-align: left;">实事求是</td>
+</tr>
+</tbody>
+</table>
+<h2>投资启示</h2>
+<ul>
+<li>段永平抄底网易≠你可以抄底任何股票</li>
+<li>巴菲特价值投资≠简单PE选股</li>
+<li>要理解原理，不抄表象</li>
+</ul>
+<blockquote>
+<p>因果不虚，见路不走。</p>
+</blockquote></div>
+      <div class="card-tags"><span class="card-tag">#豆豆</span></div><div class="card-tags"><span class="card-tag">#文化属性</span></div><div class="card-tags"><span class="card-tag">#哲学</span></div>
+      <div class="card-source">📖 来源：《天幕红尘》</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

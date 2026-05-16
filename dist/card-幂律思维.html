@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>幂律思维 — 知识卡片</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f7f8fa;--surface:#ffffff;--text:#1a1d24;--text-muted:#8896a7;--border:#e8edf2;--accent:#6c8ebf;--radius:16px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Noto Sans SC',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+    header{background:rgba(255,255,255,0.92);border-bottom:1px solid var(--border);padding:0 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .header-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+    .logo{font-size:15px;font-weight:600;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;border:none;transition:all .2s;font-family:inherit}
+    .btn-ghost{background:transparent;color:var(--text-muted);border:1.5px solid var(--border)}
+    .btn-ghost:hover{background:var(--bg);color:var(--text)}
+    .container{max-width:800px;margin:32px auto;padding:0 24px 60px}
+    .card{background:var(--surface);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    .card-accent{height:5px}
+    .card-body{padding:32px}
+    .card-meta{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+    .card-cat{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px}
+    .card-date{font-size:12px;color:var(--text-muted)}
+    .card-title{font-size:24px;font-weight:700;margin-bottom:24px;line-height:1.35}
+    .card-content{font-size:15px;color:var(--text)}
+    .card-content h1,.card-content h2,.card-content h3{font-weight:600;margin:20px 0 10px}
+    .card-content p{margin-bottom:12px}
+    .card-content ul,.card-content ol{padding-left:24px;margin-bottom:12px}
+    .card-content li{margin-bottom:6px}
+    .card-content blockquote{border-left:3px solid #3b82f6;padding-left:16px;color:var(--text-muted);margin:16px 0;font-style:italic}
+    .card-content table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px}
+    .card-content th,.card-content td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+    .card-content th{background:var(--bg);font-weight:600}
+    .card-content code{background:var(--bg);padding:2px 6px;border-radius:4px;font-size:13px}
+    .card-tags{margin-top:28px;display:flex;flex-wrap:wrap;gap:6px}
+    .card-tag{font-size:12px;padding:3px 10px;border-radius:6px;background:var(--bg);color:var(--text-muted)}
+    .card-source{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted)}
+    .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:13px;margin-bottom:16px}
+    .back-link:hover{color:var(--text)}
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">📚 知识卡片</a>
+    <a href="/" class="btn btn-ghost">← 返回</a>
+  </div>
+</header>
+<div class="container">
+  <a href="/" class="back-link">← 返回列表</a>
+  <div class="card">
+    <div class="card-accent" style="background:#3b82f6"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-cat" style="color:#3b82f6;background:color-mix(in srgb,#3b82f612%,white)">💡 思维</span>
+        <span class="card-date">2026-05-16</span>
+      </div>
+      <h1 class="card-title">幂律思维</h1>
+      <div class="card-content"><h2>核心概念</h2>
+<p>少数头部占据大多数价值，这就是幂律分布。</p>
+<ul>
+<li>80%的互联网流量来自20%的网站</li>
+<li>风投靠少数项目覆盖所有失败</li>
+<li>"航母+卫星"模式：航母70%做压舱，卫星30%博弹性</li>
+</ul>
+<h2>应用场景</h2>
+<ul>
+<li><strong>投资</strong>：识别头部公司，避开长尾垃圾</li>
+<li><strong>时间管理</strong>：把精力投入20%高价值事项</li>
+<li><strong>产品策略</strong>：聚焦核心功能，不做过度延伸</li>
+</ul>
+<blockquote>
+<p>幂律告诉我们：重要的永远只有那么几件事。</p>
+</blockquote></div>
+      <div class="card-tags"><span class="card-tag">#思维模型</span></div><div class="card-tags"><span class="card-tag">#投资</span></div><div class="card-tags"><span class="card-tag">#二八法则</span></div>
+      <div class="card-source">📖 来源：原创整理</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
